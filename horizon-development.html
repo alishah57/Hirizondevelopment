@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Horizon Development | Premier Home Builder</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E2C47E;
+    --gold-dark: #9B7A28;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #181818;
+    --dark3: #222222;
+    --white: #F5F2ED;
+    --gray: #888888;
+    --gray-light: #BBBBBB;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: all 0.15s ease;
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 48px;
+    height: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo img {
+    height: 64px;
+    width: auto;
+    filter: drop-shadow(0 0 10px rgba(201,168,76,0.3));
+  }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--gray-light);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 10px 28px !important;
+    letter-spacing: 2px !important;
+    transition: background 0.3s, color 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black) !important; }
+  .nav-cta::after { display: none !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 28px; height: 2px;
+    background: var(--gold);
+    transition: all 0.3s;
+  }
+
+  /* HERO */
+  #hero {
+    height: 100vh;
+    min-height: 700px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(160deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.85) 100%),
+      url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=80') center/cover no-repeat;
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, var(--black) 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 80px;
+    max-width: 800px;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .hero-tag span { display: block; width: 40px; height: 1px; background: var(--gold); }
+  .hero-h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .hero-h1 em { font-style: italic; color: var(--gold-light); }
+  .hero-sub {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--gray-light);
+    max-width: 480px;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .hero-btns {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    padding: 16px 44px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    border: 1px solid rgba(245,242,237,0.4);
+    color: var(--white);
+    padding: 16px 44px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    z-index: 2;
+  }
+  .scroll-line {
+    display: block;
+    width: 50px; height: 1px;
+    background: var(--gold);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%,100% { width: 50px; opacity: 1; }
+    50% { width: 30px; opacity: 0.5; }
+  }
+
+  .hero-stats {
+    position: absolute;
+    right: 80px;
+    bottom: 60px;
+    display: flex;
+    gap: 48px;
+    z-index: 2;
+    opacity: 0;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 6px;
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 120px 80px; }
+  .section-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-tag::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  /* ABOUT */
+  #about {
+    background: var(--dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+  }
+  .about-img-accent {
+    position: absolute;
+    bottom: -24px;
+    right: -24px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--gold);
+    z-index: -1;
+  }
+  .about-badge {
+    position: absolute;
+    top: 32px;
+    right: -20px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 24px 20px;
+    text-align: center;
+    min-width: 120px;
+  }
+  .badge-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+  }
+  .badge-text {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+  .about-body { color: var(--gray-light); font-size: 14px; line-height: 1.9; margin-bottom: 32px; }
+  .about-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--gray-light);
+  }
+  .feature-item::before {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* SERVICES */
+  #services { background: var(--black); }
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .service-card {
+    background: var(--dark2);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+    transform-origin: left;
+  }
+  .service-card:hover { background: var(--dark3); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 56px; height: 56px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    font-size: 24px;
+    transition: border-color 0.4s;
+  }
+  .service-card:hover .service-icon { border-color: var(--gold); }
+  .service-num {
+    position: absolute;
+    top: 24px; right: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: rgba(201,168,76,0.06);
+    line-height: 1;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-num { color: rgba(201,168,76,0.12); }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 14px;
+    color: var(--white);
+  }
+  .service-desc { font-size: 13px; line-height: 1.8; color: var(--gray); }
+
+  /* PORTFOLIO */
+  #portfolio { background: var(--dark); }
+  .portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .filter-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .filter-btn {
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: color 0.3s, background 0.3s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 4px;
+    margin-top: 40px;
+  }
+  .p-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .p-item:nth-child(1) { grid-column: 1/8; grid-row: 1/3; aspect-ratio: 16/10; }
+  .p-item:nth-child(2) { grid-column: 8/13; grid-row: 1/2; aspect-ratio: 16/9; }
+  .p-item:nth-child(3) { grid-column: 8/13; grid-row: 2/3; aspect-ratio: 16/9; }
+  .p-item:nth-child(4) { grid-column: 1/5; grid-row: 3; aspect-ratio: 4/3; }
+  .p-item:nth-child(5) { grid-column: 5/9; grid-row: 3; aspect-ratio: 4/3; }
+  .p-item:nth-child(6) { grid-column: 9/13; grid-row: 3; aspect-ratio: 4/3; }
+  .p-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .p-item:hover .p-img { transform: scale(1.06); }
+  .p-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    align-items: flex-end;
+    padding: 28px;
+  }
+  .p-item:hover .p-overlay { opacity: 1; }
+  .p-info { transform: translateY(10px); transition: transform 0.4s; }
+  .p-item:hover .p-info { transform: translateY(0); }
+  .p-cat {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .p-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--white);
+  }
+  .p-location { font-size: 11px; color: var(--gray-light); margin-top: 4px; }
+
+  /* PROCESS */
+  #process { background: var(--black); }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    position: relative;
+  }
+  .process-grid::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .process-step {
+    padding: 0 32px;
+    text-align: center;
+    position: relative;
+  }
+  .step-num {
+    width: 72px; height: 72px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold);
+    margin: 0 auto 28px;
+    background: var(--black);
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, color 0.3s;
+  }
+  .process-step:hover .step-num { background: var(--gold); color: var(--black); }
+  .step-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .step-desc { font-size: 12px; line-height: 1.8; color: var(--gray); }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    background: var(--dark2);
+    position: relative;
+    overflow: hidden;
+  }
+  #testimonials::before {
+    content: '"';
+    position: absolute;
+    top: -40px;
+    left: 60px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 400px;
+    color: rgba(201,168,76,0.04);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .testimonials-header { margin-bottom: 64px; }
+  .testimonials-slider { position: relative; }
+  .testimonial-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .testimonial-card {
+    background: var(--dark);
+    padding: 44px 36px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+    position: relative;
+  }
+  .testimonial-card:first-child { border-color: var(--gold); }
+  .t-quote { color: var(--gold); font-size: 32px; font-family: 'Cormorant Garamond', serif; margin-bottom: 20px; line-height: 1; }
+  .t-text {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--gray-light);
+    font-style: italic;
+    margin-bottom: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+  }
+  .t-stars { color: var(--gold); font-size: 12px; margin-bottom: 16px; letter-spacing: 3px; }
+  .t-author { display: flex; align-items: center; gap: 14px; }
+  .t-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: var(--gold-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .t-name { font-size: 13px; font-weight: 600; letter-spacing: 1px; }
+  .t-sub { font-size: 11px; color: var(--gray); margin-top: 3px; }
+
+  /* CTA BAND */
+  #cta-band {
+    background:
+      linear-gradient(135deg, rgba(10,10,10,0.92), rgba(10,10,10,0.88)),
+      url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80') center/cover;
+    padding: 100px 80px;
+    text-align: center;
+    position: relative;
+  }
+  #cta-band::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgba(201,168,76,0.2);
+    pointer-events: none;
+  }
+  .cta-pretitle { color: var(--gold); font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-sub {
+    font-size: 14px;
+    color: var(--gray-light);
+    max-width: 500px;
+    margin: 0 auto 48px;
+    line-height: 1.8;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--dark); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-info-item {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .ci-icon {
+    width: 44px; height: 44px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .ci-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+  .ci-value { font-size: 14px; color: var(--white); }
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+    appearance: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--gray); }
+  .form-group select option { background: var(--dark2); }
+  .submit-btn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 18px 48px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    align-self: flex-start;
+  }
+  .submit-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 64px 80px 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand img { height: 80px; filter: drop-shadow(0 0 8px rgba(201,168,76,0.2)); margin-bottom: 20px; }
+  .footer-tagline { font-size: 13px; color: var(--gray); line-height: 1.8; max-width: 260px; }
+  .footer-title { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links a { color: var(--gray); font-size: 13px; text-decoration: none; transition: color 0.3s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-copy { font-size: 11px; color: var(--gray); letter-spacing: 1px; }
+  .footer-socials { display: flex; gap: 16px; }
+  .social-link {
+    width: 38px; height: 38px;
+    border: 1px solid rgba(201,168,76,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--gray);
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* MOBILE NAV */
+  .mobile-nav {
+    position: fixed;
+    top: 0; right: -100%;
+    width: 300px; height: 100%;
+    background: var(--dark);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 40px 40px;
+    gap: 32px;
+    transition: right 0.4s ease;
+    border-left: 1px solid rgba(201,168,76,0.15);
+  }
+  .mobile-nav.open { right: 0; }
+  .mobile-nav a { color: var(--white); text-decoration: none; font-size: 20px; font-family: 'Cormorant Garamond', serif; font-weight: 300; }
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .mobile-overlay.open { opacity: 1; pointer-events: all; }
+  .close-menu {
+    position: absolute;
+    top: 28px; right: 24px;
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    section { padding: 80px 48px; }
+    #about { grid-template-columns: 1fr; gap: 48px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .testimonial-track { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .process-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .process-grid::before { display: none; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 64px 24px; }
+    .hero-content { padding: 0 24px; }
+    .hero-scroll { left: 24px; }
+    .hero-stats { right: 24px; bottom: 24px; gap: 24px; }
+    .stat-num { font-size: 30px; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .p-item { grid-column: 1/-1 !important; grid-row: auto !important; }
+    .p-item { aspect-ratio: 16/9 !important; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    #cta-band::before { display: none; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(40px); }
+  .stagger-child { opacity: 0; transform: translateY(30px); }
+
+  /* Gold divider */
+  .gold-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin: 20px 0 40px;
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="data:image/jpeg;base64,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" alt="Horizon Development Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Testimonials</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-nav" id="mobileNav">
+  <button class="close-menu" id="closeMenu">✕</button>
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#portfolio" class="mobile-link">Portfolio</a>
+  <a href="#process" class="mobile-link">Process</a>
+  <a href="#testimonials" class="mobile-link">Testimonials</a>
+  <a href="#contact" class="mobile-link" style="color:var(--gold)">Get a Quote →</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span></span> Premier Home Builder</div>
+    <h1 class="hero-h1">Building <em>Exceptional</em><br>Homes Since 2004</h1>
+    <p class="hero-sub">Horizon Development crafts luxury residences with uncompromising attention to quality, design, and craftsmanship — turning your vision into timeless spaces.</p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn-primary">View Our Work</a>
+      <a href="#contact" class="btn-ghost">Start Your Project</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span class="scroll-line"></span> Scroll to Explore</div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num" data-target="250">0</div><div class="stat-label">Homes Built</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="20">0</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="98">0</div><div class="stat-label">% Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-wrap fade-up">
+    <img class="about-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Luxury home by Horizon Development" loading="lazy">
+    <div class="about-img-accent"></div>
+    <div class="about-badge">
+      <span class="badge-num">20+</span>
+      <span class="badge-text">Years of Excellence</span>
+    </div>
+  </div>
+  <div>
+    <div class="section-tag">Our Story</div>
+    <h2 class="section-title">Where Vision Meets <em>Craftsmanship</em></h2>
+    <div class="gold-divider"></div>
+    <p class="about-body">Founded in 2004, Horizon Development has established itself as the region's premier residential builder. We don't just build houses — we create environments where families thrive and memories are made. Every project reflects our passion for design integrity, quality materials, and meticulous execution.</p>
+    <p class="about-body">From intimate custom builds to expansive estate homes, our team of dedicated craftsmen and designers deliver results that exceed expectations every time.</p>
+    <div class="about-features">
+      <div class="feature-item">Custom Home Design</div>
+      <div class="feature-item">Luxury Renovations</div>
+      <div class="feature-item">Energy Efficient Builds</div>
+      <div class="feature-item">Smart Home Integration</div>
+      <div class="feature-item">Turnkey Solutions</div>
+      <div class="feature-item">On-Time Delivery</div>
+    </div>
+    <a href="#contact" class="btn-primary">Work With Us</a>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-tag">What We Offer</div>
+      <h2 class="section-title">Our <em>Services</em></h2>
+    </div>
+    <a href="#contact" class="btn-ghost">All Services →</a>
+  </div>
+  <div class="services-grid">
+    <div class="service-card stagger-child">
+      <div class="service-num">01</div>
+      <div class="service-icon">🏠</div>
+      <h3 class="service-name">Custom Home Builds</h3>
+      <p class="service-desc">From architectural concept to final walk-through, we manage every detail of your custom home with precision and care.</p>
+    </div>
+    <div class="service-card stagger-child">
+      <div class="service-num">02</div>
+      <div class="service-icon">✦</div>
+      <h3 class="service-name">Luxury Renovations</h3>
+      <p class="service-desc">Transform your existing space into something extraordinary. We breathe new life into homes with high-end finishes and thoughtful design.</p>
+    </div>
+    <div class="service-card stagger-child">
+      <div class="service-num">03</div>
+      <div class="service-icon">🌿</div>
+      <h3 class="service-name">Outdoor Living</h3>
+      <p class="service-desc">Extend your living space outdoors with custom patios, pools, landscaping, and entertainment areas designed for relaxation.</p>
+    </div>
+    <div class="service-card stagger-child">
+      <div class="service-num">04</div>
+      <div class="service-icon">⚡</div>
+      <h3 class="service-name">Smart Home Systems</h3>
+      <p class="service-desc">Integrate cutting-edge technology seamlessly into your home — lighting, security, climate, and entertainment at your fingertips.</p>
+    </div>
+    <div class="service-card stagger-child">
+      <div class="service-num">05</div>
+      <div class="service-icon">🏗️</div>
+      <h3 class="service-name">Project Management</h3>
+      <p class="service-desc">Dedicated project managers coordinate every trade, timeline, and budget milestone to deliver your project without surprises.</p>
+    </div>
+    <div class="service-card stagger-child">
+      <div class="service-num">06</div>
+      <div class="service-icon">🎨</div>
+      <h3 class="service-name">Interior Design</h3>
+      <p class="service-desc">Our in-house design team curates finishes, fixtures, and furnishings that create a cohesive, stunning aesthetic throughout your home.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-tag">Our Portfolio</div>
+      <h2 class="section-title">Recent <em>Projects</em></h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="new">New Builds</button>
+      <button class="filter-btn" data-filter="reno">Renovations</button>
+      <button class="filter-btn" data-filter="outdoor">Outdoor</button>
+    </div>
+  </div>
+  <div class="portfolio-grid">
+    <div class="p-item">
+      <img class="p-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=80" alt="The Fairview Estate" loading="lazy">
+      <div class="p-overlay"><div class="p-info"><div class="p-cat">New Build</div><div class="p-title">The Fairview Estate</div><div class="p-location">Oyster Bay, NY</div></div></div>
+    </div>
+    <div class="p-item">
+      <img class="p-img" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80" alt="Harbor View Residence" loading="lazy">
+      <div class="p-overlay"><div class="p-info"><div class="p-cat">Renovation</div><div class="p-title">Harbor View Residence</div><div class="p-location">Manhasset, NY</div></div></div>
+    </div>
+    <div class="p-item">
+      <img class="p-img" src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80" alt="The Ashford Home" loading="lazy">
+      <div class="p-overlay"><div class="p-info"><div class="p-cat">New Build</div><div class="p-title">The Ashford Home</div><div class="p-location">Garden City, NY</div></div></div>
+    </div>
+    <div class="p-item">
+      <img class="p-img" src="https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=800&q=80" alt="Meadow Lane Villa" loading="lazy">
+      <div class="p-overlay"><div class="p-info"><div class="p-cat">Outdoor</div><div class="p-title">Meadow Lane Villa</div><div class="p-location">Old Westbury, NY</div></div></div>
+    </div>
+    <div class="p-item">
+      <img class="p-img" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80" alt="Sunrise Crest" loading="lazy">
+      <div class="p-overlay"><div class="p-info"><div class="p-cat">New Build</div><div class="p-title">Sunrise Crest</div><div class="p-location">Jericho, NY</div></div></div>
+    </div>
+    <div class="p-item">
+      <img class="p-img" src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=800&q=80" alt="The Pemberton" loading="lazy">
+      <div class="p-overlay"><div class="p-info"><div class="p-cat">Renovation</div><div class="p-title">The Pemberton</div><div class="p-location">Roslyn, NY</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div style="text-align:center; margin-bottom: 0;">
+    <div class="section-tag" style="justify-content:center;">How We Work</div>
+    <h2 class="section-title">Our <em>Process</em></h2>
+    <div class="gold-divider" style="margin: 20px auto 0;"></div>
+  </div>
+  <div class="process-grid">
+    <div class="process-step stagger-child">
+      <div class="step-num">01</div>
+      <h3 class="step-name">Consultation</h3>
+      <p class="step-desc">We begin by listening — deeply understanding your vision, lifestyle, budget, and timeline before a single sketch is drawn.</p>
+    </div>
+    <div class="process-step stagger-child">
+      <div class="step-num">02</div>
+      <h3 class="step-name">Design & Planning</h3>
+      <p class="step-desc">Our architects and designers translate your vision into detailed plans, material selections, and 3D renderings for your approval.</p>
+    </div>
+    <div class="process-step stagger-child">
+      <div class="step-num">03</div>
+      <h3 class="step-name">Construction</h3>
+      <p class="step-desc">Expert craftsmen execute every phase with precision. Regular updates and site visits keep you informed throughout the build.</p>
+    </div>
+    <div class="process-step stagger-child">
+      <div class="step-num">04</div>
+      <h3 class="step-name">Delivery</h3>
+      <p class="step-desc">We hand over your completed home with a comprehensive walkthrough and our industry-leading warranty for complete peace of mind.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header">
+    <div class="section-tag">Client Stories</div>
+    <h2 class="section-title">What Our <em>Clients Say</em></h2>
+  </div>
+  <div class="testimonial-track">
+    <div class="testimonial-card">
+      <div class="t-quote">"</div>
+      <p class="t-text">Horizon Development turned our dream home into a reality. Their attention to detail and commitment to quality is unmatched. Every room feels purposeful and beautiful.</p>
+      <div class="t-stars">★★★★★</div>
+      <div class="t-author">
+        <div class="t-avatar">MR</div>
+        <div><div class="t-name">Michael & Rachel Torres</div><div class="t-sub">Custom Build, Old Westbury NY</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-quote">"</div>
+      <p class="t-text">From the first meeting to the final walk-through, the team was professional, transparent, and genuinely cared about getting every detail right. Extraordinary experience.</p>
+      <div class="t-stars">★★★★★</div>
+      <div class="t-author">
+        <div class="t-avatar">SL</div>
+        <div><div class="t-name">Sandra & Leo Kim</div><div class="t-sub">Luxury Renovation, Manhasset NY</div></div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-quote">"</div>
+      <p class="t-text">We've worked with other builders before, but Horizon is on another level. They delivered on time, on budget, and the craftsmanship speaks for itself. Truly remarkable.</p>
+      <div class="t-stars">★★★★★</div>
+      <div class="t-author">
+        <div class="t-avatar">DW</div>
+        <div><div class="t-name">David & Whitney Chen</div><div class="t-sub">Estate Build, Oyster Bay NY</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div id="cta-band">
+  <p class="cta-pretitle">Ready to Build?</p>
+  <h2 class="cta-title">Let's Create Something <em>Extraordinary</em> Together</h2>
+  <p class="cta-sub">Schedule a free consultation with our team and take the first step toward your dream home.</p>
+  <a href="#contact" class="btn-primary">Schedule a Consultation</a>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="section-tag">Contact Us</div>
+      <h2 class="section-title">Get In <em>Touch</em></h2>
+      <div class="gold-divider"></div>
+      <div class="contact-info-item">
+        <div class="ci-icon">📍</div>
+        <div><div class="ci-label">Address</div><div class="ci-value">123 Horizon Boulevard<br>Hicksville, NY 11801</div></div>
+      </div>
+      <div class="contact-info-item">
+        <div class="ci-icon">📞</div>
+        <div><div class="ci-label">Phone</div><div class="ci-value">(516) 555-0192</div></div>
+      </div>
+      <div class="contact-info-item">
+        <div class="ci-icon">✉️</div>
+        <div><div class="ci-label">Email</div><div class="ci-value">info@horizondevelopmentny.com</div></div>
+      </div>
+      <div class="contact-info-item">
+        <div class="ci-icon">🕐</div>
+        <div><div class="ci-label">Hours</div><div class="ci-value">Mon – Fri: 8am – 6pm<br>Sat: 9am – 2pm</div></div>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="John"></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Smith"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" placeholder="(516) 555-0000"></div>
+          <div class="form-group"><label>Email</label><input type="email" placeholder="john@email.com"></div>
+        </div>
+        <div class="form-group">
+          <label>Project Type</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Custom Home Build</option>
+            <option>Luxury Renovation</option>
+            <option>Outdoor Living</option>
+            <option>Smart Home Systems</option>
+            <option>Interior Design</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Budget Range</label>
+          <select>
+            <option value="">Select budget range...</option>
+            <option>$250K – $500K</option>
+            <option>$500K – $1M</option>
+            <option>$1M – $2M</option>
+            <option>$2M+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell Us About Your Project</label>
+          <textarea rows="5" placeholder="Share your vision, location, timeline..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="data:image/jpeg;base64,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" alt="Horizon Development">
+      <p class="footer-tagline">Building exceptional homes with integrity, quality, and care since 2004.</p>
+    </div>
+    <div>
+      <div class="footer-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="#services">Custom Home Builds</a></li>
+        <li><a href="#services">Luxury Renovations</a></li>
+        <li><a href="#services">Outdoor Living</a></li>
+        <li><a href="#services">Smart Home Systems</a></li>
+        <li><a href="#services">Interior Design</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Get in Touch</div>
+      <ul class="footer-links">
+        <li><a href="tel:5165550192">(516) 555-0192</a></li>
+        <li><a href="mailto:info@horizondevelopmentny.com">info@horizondevelopmentny.com</a></li>
+        <li><a href="#">123 Horizon Blvd, Hicksville, NY</a></li>
+        <li><a href="#contact">Free Consultation →</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 Horizon Development. All Rights Reserved.</div>
+    <div class="footer-socials">
+      <a href="#" class="social-link">𝕏</a>
+      <a href="#" class="social-link">in</a>
+      <a href="#" class="social-link">f</a>
+      <a href="#" class="social-link">ig</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursor.style.left=mx+'px'; cursor.style.top=my+'px'; });
+  function animRing(){ rx += (mx-rx)*0.12; ry += (my-ry)*0.12; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animRing); }
+  animRing();
+  document.querySelectorAll('a, button, .service-card, .p-item, .filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', ()=>{ cursor.style.transform='translate(-50%,-50%) scale(2)'; ring.style.transform='translate(-50%,-50%) scale(1.5)'; ring.style.opacity='0.3'; });
+    el.addEventListener('mouseleave', ()=>{ cursor.style.transform='translate(-50%,-50%) scale(1)'; ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.opacity='0.6'; });
+  });
+
+  // NAV SCROLL
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 50); });
+
+  // MOBILE MENU
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const closeMenu = document.getElementById('closeMenu');
+  function openMenu(){ mobileNav.classList.add('open'); mobileOverlay.classList.add('open'); }
+  function closeMenuFn(){ mobileNav.classList.remove('open'); mobileOverlay.classList.remove('open'); }
+  hamburger.addEventListener('click', openMenu);
+  closeMenu.addEventListener('click', closeMenuFn);
+  mobileOverlay.addEventListener('click', closeMenuFn);
+  document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenuFn));
+
+  // GSAP ANIMATIONS
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero
+  gsap.to('.hero-tag', { opacity:1, y:0, duration:0.8, delay:0.3, ease:'power2.out' });
+  gsap.to('.hero-h1', { opacity:1, y:0, duration:1, delay:0.5, ease:'power3.out' });
+  gsap.to('.hero-sub', { opacity:1, y:0, duration:0.8, delay:0.75, ease:'power2.out' });
+  gsap.to('.hero-btns', { opacity:1, y:0, duration:0.8, delay:0.95, ease:'power2.out' });
+  gsap.to('.hero-stats', { opacity:1, duration:1, delay:1.2, ease:'power2.out' });
+
+  // Counter animation
+  document.querySelectorAll('[data-target]').forEach(el => {
+    const target = +el.dataset.target;
+    let start = null;
+    const duration = 2000;
+    function step(timestamp){ if(!start) start=timestamp; const p=Math.min((timestamp-start)/duration,1); el.textContent=Math.floor(p*target)+(target>=98?'%':'+'); if(p<1) requestAnimationFrame(step); }
+    setTimeout(()=>requestAnimationFrame(step), 1300);
+  });
+
+  // Fade up sections
+  gsap.utils.toArray('.fade-up').forEach(el => {
+    gsap.to(el, { opacity:1, y:0, duration:0.9, ease:'power2.out', scrollTrigger:{ trigger:el, start:'top 85%' } });
+  });
+
+  // Stagger children
+  document.querySelectorAll('section').forEach(section => {
+    const children = section.querySelectorAll('.stagger-child');
+    if(children.length) {
+      gsap.to(children, { opacity:1, y:0, duration:0.7, stagger:0.12, ease:'power2.out',
+        scrollTrigger:{ trigger:section, start:'top 80%' } });
+    }
+  });
+
+  // FILTER TABS
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // FORM SUBMIT
+  function handleSubmit(e){
+    e.preventDefault();
+    const btn = e.target.querySelector('.submit-btn');
+    btn.textContent = 'Message Sent ✓';
+    btn.style.background = 'var(--gold-dark)';
+    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; }, 3000);
+  }
+
+  // SMOOTH SECTION TAG INTERSECTION
+  gsap.utils.toArray('.section-tag').forEach(el => {
+    gsap.from(el, { opacity:0, x:-20, duration:0.7, ease:'power2.out',
+      scrollTrigger:{ trigger:el, start:'top 88%' } });
+  });
+</script>
+</body>
+</html>
