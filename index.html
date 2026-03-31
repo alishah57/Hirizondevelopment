@@ -132,6 +132,74 @@
     transition: all 0.3s;
   }
 
+  /* HERO CAROUSEL */
+  .hero-carousel {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.4s ease-in-out;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(160deg, rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.38) 50%, rgba(10,10,10,0.82) 100%);
+  }
+  .hero-fade-bottom {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--black) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* Carousel dots */
+  .hero-dots {
+    position: absolute;
+    bottom: 44px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+  }
+  .hero-dot {
+    width: 28px; height: 2px;
+    background: rgba(245,242,237,0.3);
+    cursor: pointer;
+    transition: background 0.4s, width 0.4s;
+    border: none;
+    padding: 0;
+  }
+  .hero-dot.active { background: var(--gold); width: 44px; }
+  /* Carousel arrows */
+  .hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: rgba(10,10,10,0.45);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+    backdrop-filter: blur(4px);
+  }
+  .hero-arrow:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+  .hero-arrow.prev { left: 32px; }
+  .hero-arrow.next { right: 32px; }
+
   /* HERO */
   #hero {
     height: 100vh;
@@ -140,19 +208,6 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(160deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.4) 50%, rgba(10,10,10,0.85) 100%),
-      url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=80') center/cover no-repeat;
-  }
-  .hero-bg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 60%, var(--black) 100%);
   }
   .hero-content {
     position: relative;
@@ -892,10 +947,31 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
+  <!-- HERO CAROUSEL -->
+  <div class="hero-carousel" id="heroCarousel">
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=80');"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1800&q=80');"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=80');"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1800&q=80');"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1800&q=80');"></div>
+  </div>
+  <div class="hero-fade-bottom"></div>
+
+  <!-- Arrows -->
+  <button class="hero-arrow prev" id="heroPrev">&#8592;</button>
+  <button class="hero-arrow next" id="heroNext">&#8594;</button>
+
+  <!-- Dots -->
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active"></button>
+    <button class="hero-dot"></button>
+    <button class="hero-dot"></button>
+    <button class="hero-dot"></button>
+    <button class="hero-dot"></button>
+  </div>
   <div class="hero-content">
     <div class="hero-tag"><span></span> Premier Home Builder</div>
-    <h1 class="hero-h1">Building <em>Exceptional</em><br>Homes Since 2004</h1>
+    <h1 class="hero-h1">Building <em>Exceptional</em><br>Homes Since 2018</h1>
     <p class="hero-sub">Horizon Development crafts luxury residences with uncompromising attention to quality, design, and craftsmanship — turning your vision into timeless spaces.</p>
     <div class="hero-btns">
       <a href="#portfolio" class="btn-primary">View Our Work</a>
@@ -905,7 +981,7 @@
   <div class="hero-scroll"><span class="scroll-line"></span> Scroll to Explore</div>
   <div class="hero-stats">
     <div class="stat-item"><div class="stat-num" data-target="250">0</div><div class="stat-label">Homes Built</div></div>
-    <div class="stat-item"><div class="stat-num" data-target="20">0</div><div class="stat-label">Years Experience</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="7">0</div><div class="stat-label">Years Experience</div></div>
     <div class="stat-item"><div class="stat-num" data-target="98">0</div><div class="stat-label">% Satisfaction</div></div>
   </div>
 </section>
@@ -916,7 +992,7 @@
     <img class="about-img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80" alt="Luxury home by Horizon Development" loading="lazy">
     <div class="about-img-accent"></div>
     <div class="about-badge">
-      <span class="badge-num">20+</span>
+      <span class="badge-num">7+</span>
       <span class="badge-text">Years of Excellence</span>
     </div>
   </div>
@@ -924,7 +1000,7 @@
     <div class="section-tag">Our Story</div>
     <h2 class="section-title">Where Vision Meets <em>Craftsmanship</em></h2>
     <div class="gold-divider"></div>
-    <p class="about-body">Founded in 2004, Horizon Development has established itself as the region's premier residential builder. We don't just build houses — we create environments where families thrive and memories are made. Every project reflects our passion for design integrity, quality materials, and meticulous execution.</p>
+    <p class="about-body">Founded in 2018, Horizon Development has quickly established itself as the region's premier residential builder. We don't just build houses — we create environments where families thrive and memories are made. Every project reflects our passion for design integrity, quality materials, and meticulous execution.</p>
     <p class="about-body">From intimate custom builds to expansive estate homes, our team of dedicated craftsmen and designers deliver results that exceed expectations every time.</p>
     <div class="about-features">
       <div class="feature-item">Custom Home Design</div>
@@ -962,9 +1038,9 @@
     </div>
     <div class="service-card stagger-child">
       <div class="service-num">03</div>
-      <div class="service-icon">🌿</div>
-      <h3 class="service-name">Outdoor Living</h3>
-      <p class="service-desc">Extend your living space outdoors with custom patios, pools, landscaping, and entertainment areas designed for relaxation.</p>
+      <div class="service-icon">🏗️</div>
+      <h3 class="service-name">Dormers, Extensions & Additions</h3>
+      <p class="service-desc">Expand your living space with expertly crafted dormers, room additions, and structural extensions — seamlessly blended with your home's existing architecture.</p>
     </div>
     <div class="service-card stagger-child">
       <div class="service-num">04</div>
@@ -974,7 +1050,7 @@
     </div>
     <div class="service-card stagger-child">
       <div class="service-num">05</div>
-      <div class="service-icon">🏗️</div>
+      <div class="service-icon">📋</div>
       <h3 class="service-name">Project Management</h3>
       <p class="service-desc">Dedicated project managers coordinate every trade, timeline, and budget milestone to deliver your project without surprises.</p>
     </div>
@@ -1122,7 +1198,7 @@
       </div>
       <div class="contact-info-item">
         <div class="ci-icon">✉️</div>
-        <div><div class="ci-label">Email</div><div class="ci-value">info@horizondevelopmentny.com</div></div>
+        <div><div class="ci-label">Email</div><div class="ci-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="234a4d454c634b4c514a594c4d474655464f4c534e464d574d5a0d404c4e">[email&#160;protected]</a></div></div>
       </div>
       <div class="contact-info-item">
         <div class="ci-icon">🕐</div>
@@ -1145,7 +1221,7 @@
             <option value="">Select a service...</option>
             <option>Custom Home Build</option>
             <option>Luxury Renovation</option>
-            <option>Outdoor Living</option>
+            <option>Dormers, Extensions & Additions</option>
             <option>Smart Home Systems</option>
             <option>Interior Design</option>
           </select>
@@ -1175,14 +1251,14 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <img src="data:image/jpeg;base64,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" alt="Horizon Development">
-      <p class="footer-tagline">Building exceptional homes with integrity, quality, and care since 2004.</p>
+      <p class="footer-tagline">Building exceptional homes with integrity, quality, and care since 2018.</p>
     </div>
     <div>
       <div class="footer-title">Services</div>
       <ul class="footer-links">
         <li><a href="#services">Custom Home Builds</a></li>
         <li><a href="#services">Luxury Renovations</a></li>
-        <li><a href="#services">Outdoor Living</a></li>
+        <li><a href="#services">Dormers, Extensions & Additions</a></li>
         <li><a href="#services">Smart Home Systems</a></li>
         <li><a href="#services">Interior Design</a></li>
       </ul>
@@ -1201,7 +1277,7 @@
       <div class="footer-title">Get in Touch</div>
       <ul class="footer-links">
         <li><a href="tel:5165550192">(516) 555-0192</a></li>
-        <li><a href="mailto:info@horizondevelopmentny.com">info@horizondevelopmentny.com</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#83eaede5ecc3ebecf1eaf9ecede7e6f5e6efecf3eee6edf7edfaade0ecee"><span class="__cf_email__" data-cfemail="1e777078715e76716c776471707a7b687b72716e737b706a7067307d7173">[email&#160;protected]</span></a></li>
         <li><a href="#">123 Horizon Blvd, Hicksville, NY</a></li>
         <li><a href="#contact">Free Consultation →</a></li>
       </ul>
@@ -1218,7 +1294,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // CURSOR
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
@@ -1288,20 +1364,38 @@
     });
   });
 
+  // HERO CAROUSEL
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero-dot');
+  let currentSlide = 0;
+  let carouselTimer;
+
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = (n + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+
+  function nextSlide() { goToSlide(currentSlide + 1); }
+  function prevSlide() { goToSlide(currentSlide - 1); }
+
+  function startCarousel() {
+    carouselTimer = setInterval(nextSlide, 5000);
+  }
+  function resetCarousel() {
+    clearInterval(carouselTimer);
+    startCarousel();
+  }
+
+  document.getElementById('heroNext').addEventListener('click', () => { nextSlide(); resetCarousel(); });
+  document.getElementById('heroPrev').addEventListener('click', () => { prevSlide(); resetCarousel(); });
+  dots.forEach((dot, i) => dot.addEventListener('click', () => { goToSlide(i); resetCarousel(); }));
+  startCarousel();
+
   // FORM SUBMIT
   function handleSubmit(e){
     e.preventDefault();
     const btn = e.target.querySelector('.submit-btn');
     btn.textContent = 'Message Sent ✓';
-    btn.style.background = 'var(--gold-dark)';
-    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; }, 3000);
-  }
-
-  // SMOOTH SECTION TAG INTERSECTION
-  gsap.utils.toArray('.section-tag').forEach(el => {
-    gsap.from(el, { opacity:0, x:-20, duration:0.7, ease:'power2.out',
-      scrollTrigger:{ trigger:el, start:'top 88%' } });
-  });
-</script>
-</body>
-</html>
