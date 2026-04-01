@@ -128,42 +128,46 @@
     <a href="#contact" class="btn-ghost">All Services →</a>
   </div>
   <div class="services-grid">
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="custom-home-builds" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">01</div>
       <div class="service-icon">🏠</div>
       <h3 class="service-name">Custom Home Builds</h3>
       <p class="service-desc">From architectural concept to final walk-through, we manage every detail of your custom home with precision and care.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="luxury-renovations" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">02</div>
       <div class="service-icon">✦</div>
       <h3 class="service-name">Luxury Renovations</h3>
       <p class="service-desc">Transform your existing space into something extraordinary. We breathe new life into homes with high-end finishes and thoughtful design.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="extensions-additions" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">03</div>
       <div class="service-icon">🏗️</div>
       <h3 class="service-name">Dormers, Extensions & Additions</h3>
       <p class="service-desc">Expand your living space with expertly crafted dormers, room additions, and structural extensions — seamlessly blended with your home's existing architecture.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="smart-home-systems" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">04</div>
       <div class="service-icon">⚡</div>
       <h3 class="service-name">Smart Home Systems</h3>
       <p class="service-desc">Integrate cutting-edge technology seamlessly into your home — lighting, security, climate, and entertainment at your fingertips.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="project-management" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">05</div>
       <div class="service-icon">📋</div>
       <h3 class="service-name">Project Management</h3>
       <p class="service-desc">Dedicated project managers coordinate every trade, timeline, and budget milestone to deliver your project without surprises.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="interior-design" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">06</div>
       <div class="service-icon">🎨</div>
       <h3 class="service-name">Interior Design</h3>
       <p class="service-desc">Our in-house design team curates finishes, fixtures, and furnishings that create a cohesive, stunning aesthetic throughout your home.</p>
     </div>
+  </div>
+  <div id="servicesGalleryPanel" class="services-gallery" aria-live="polite">
+    <h3 id="servicesGalleryTitle" class="services-gallery-title">Custom Home Builds</h3>
+    <div id="servicesGalleryGrid" class="services-gallery-grid"></div>
   </div>
 </section>
 
@@ -306,7 +310,7 @@
       </div>
     </div>
     <div>
-      <form id="contactForm" class="contact-form" data-endpoint="https://formspree.io/f/your_form_id" onsubmit="handleSubmit(event)">
+      <form id="contactForm" class="contact-form" data-endpoint="https://formsubmit.co/ajax/horizondvlp@gmail.com" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group"><label for="firstName">First Name</label><input id="firstName" name="first_name" type="text" placeholder="John" required></div>
           <div class="form-group"><label for="lastName">Last Name</label><input id="lastName" name="last_name" type="text" placeholder="Smith" required></div>
@@ -341,6 +345,7 @@
           <textarea id="projectDetails" name="project_details" rows="5" placeholder="Share your vision, location, timeline..." required></textarea>
         </div>
         <button type="submit" class="submit-btn">Send Message</button>
+        <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
@@ -464,6 +469,92 @@
     });
   });
 
+  // SERVICES GALLERY
+  const serviceGalleryData = {
+    'custom-home-builds': {
+      title: 'Custom Home Builds',
+      images: [
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&q=80',
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80'
+      ]
+    },
+    'luxury-renovations': {
+      title: 'Luxury Renovations',
+      images: [
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80',
+        'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=1200&q=80',
+        'https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1200&q=80'
+      ]
+    },
+    'extensions-additions': {
+      title: 'Dormers, Extensions & Additions',
+      images: [
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80',
+        'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80'
+      ]
+    },
+    'smart-home-systems': {
+      title: 'Smart Home Systems',
+      images: [
+        'https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80',
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80'
+      ]
+    },
+    'project-management': {
+      title: 'Project Management',
+      images: [
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80',
+        'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=1200&q=80'
+      ]
+    },
+    'interior-design': {
+      title: 'Interior Design',
+      images: [
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80',
+        'https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1200&q=80'
+      ]
+    }
+  };
+
+  const serviceCards = document.querySelectorAll('.service-card[data-service]');
+  const servicesGalleryPanel = document.getElementById('servicesGalleryPanel');
+  const servicesGalleryTitle = document.getElementById('servicesGalleryTitle');
+  const servicesGalleryGrid = document.getElementById('servicesGalleryGrid');
+
+  function renderServiceGallery(serviceKey) {
+    const service = serviceGalleryData[serviceKey];
+    if (!service) return;
+
+    servicesGalleryTitle.textContent = service.title;
+    servicesGalleryGrid.innerHTML = service.images
+      .map((src, index) => `<img src="${src}" alt="${service.title} image ${index + 1}" loading="lazy" referrerpolicy="no-referrer" class="services-gallery-img">`)
+      .join('');
+    servicesGalleryPanel.classList.add('active');
+
+    serviceCards.forEach(card => {
+      const isActive = card.dataset.service === serviceKey;
+      card.classList.toggle('active', isActive);
+      card.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    });
+  }
+
+  serviceCards.forEach(card => {
+    card.addEventListener('click', () => renderServiceGallery(card.dataset.service));
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        renderServiceGallery(card.dataset.service);
+      }
+    });
+  });
+
+  if (serviceCards.length) renderServiceGallery(serviceCards[0].dataset.service);
+
   // HERO CAROUSEL
   const slides = document.querySelectorAll('.hero-slide');
   const dots = document.querySelectorAll('.hero-dot');
@@ -497,31 +588,43 @@
   // FORM SUBMIT
   async function handleSubmit(e){
     e.preventDefault();
-    const btn = e.target.querySelector('.submit-btn');
-    const formData = new FormData(e.target);
-    const bodyLines = [
-      `First Name: ${formData.get('first_name') || ''}`,
-      `Last Name: ${formData.get('last_name') || ''}`,
-      `Phone: ${formData.get('phone') || ''}`,
-      `Email: ${formData.get('email') || ''}`,
-      `Project Type: ${formData.get('project_type') || ''}`,
-      `Budget Range: ${formData.get('budget_range') || ''}`,
-      '',
-      'Project Details:',
-      `${formData.get('project_details') || ''}`
-    ];
-    const subject = encodeURIComponent('New Website Inquiry - Horizon Development');
-    const body = encodeURIComponent(bodyLines.join('\n'));
-    const mailtoHref = `mailto:horizondvlp@gmail.com?subject=${subject}&body=${body}`;
+    const form = e.target;
+    const btn = form.querySelector('.submit-btn');
+    const status = form.querySelector('#formStatus');
+    const formData = new FormData(form);
+    const endpoint = form.dataset.endpoint;
+    formData.append('_subject', 'New Website Inquiry - Horizon Development');
+    formData.append('_template', 'table');
 
-    btn.textContent = 'Message Sent ✓';
+    status.textContent = '';
+    btn.textContent = 'Sending...';
     btn.disabled = true;
-    window.location.href = mailtoHref;
-    setTimeout(() => {
+    btn.style.opacity = '0.7';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (!response.ok) throw new Error('Failed to submit form');
+
+      btn.textContent = 'Message Sent ✓';
+      status.textContent = 'Thanks! Your quote request was sent successfully. We will reach out shortly.';
+      status.classList.add('success');
+      status.classList.remove('error');
+      form.reset();
+    } catch (error) {
+      btn.textContent = 'Send Message';
+      status.textContent = 'Sorry, your message could not be sent. Please try again or email us directly at horizondvlp@gmail.com.';
+      status.classList.add('error');
+      status.classList.remove('success');
+    } finally {
       btn.textContent = 'Send Message';
       btn.disabled = false;
-      e.target.reset();
-    }, 2500);
+      btn.style.opacity = '1';
+    }
   }
 </script>
 </body>
