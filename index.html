@@ -128,42 +128,46 @@
     <a href="#contact" class="btn-ghost">All Services →</a>
   </div>
   <div class="services-grid">
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="custom-home-builds" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">01</div>
       <div class="service-icon">🏠</div>
       <h3 class="service-name">Custom Home Builds</h3>
       <p class="service-desc">From architectural concept to final walk-through, we manage every detail of your custom home with precision and care.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="luxury-renovations" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">02</div>
       <div class="service-icon">✦</div>
       <h3 class="service-name">Luxury Renovations</h3>
       <p class="service-desc">Transform your existing space into something extraordinary. We breathe new life into homes with high-end finishes and thoughtful design.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="extensions-additions" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">03</div>
       <div class="service-icon">🏗️</div>
       <h3 class="service-name">Dormers, Extensions & Additions</h3>
       <p class="service-desc">Expand your living space with expertly crafted dormers, room additions, and structural extensions — seamlessly blended with your home's existing architecture.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="smart-home-systems" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">04</div>
       <div class="service-icon">⚡</div>
       <h3 class="service-name">Smart Home Systems</h3>
       <p class="service-desc">Integrate cutting-edge technology seamlessly into your home — lighting, security, climate, and entertainment at your fingertips.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="project-management" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">05</div>
       <div class="service-icon">📋</div>
       <h3 class="service-name">Project Management</h3>
       <p class="service-desc">Dedicated project managers coordinate every trade, timeline, and budget milestone to deliver your project without surprises.</p>
     </div>
-    <div class="service-card stagger-child">
+    <div class="service-card stagger-child" data-service="interior-design" role="button" tabindex="0" aria-expanded="false" aria-controls="servicesGalleryPanel">
       <div class="service-num">06</div>
       <div class="service-icon">🎨</div>
       <h3 class="service-name">Interior Design</h3>
       <p class="service-desc">Our in-house design team curates finishes, fixtures, and furnishings that create a cohesive, stunning aesthetic throughout your home.</p>
     </div>
+  </div>
+  <div id="servicesGalleryPanel" class="services-gallery" aria-live="polite">
+    <h3 id="servicesGalleryTitle" class="services-gallery-title">Custom Home Builds</h3>
+    <div id="servicesGalleryGrid" class="services-gallery-grid"></div>
   </div>
 </section>
 
@@ -464,6 +468,92 @@
       this.classList.add('active');
     });
   });
+
+  // SERVICES GALLERY
+  const serviceGalleryData = {
+    'custom-home-builds': {
+      title: 'Custom Home Builds',
+      images: [
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80',
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80',
+        'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=900&q=80'
+      ]
+    },
+    'luxury-renovations': {
+      title: 'Luxury Renovations',
+      images: [
+        'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=900&q=80',
+        'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&q=80',
+        'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?w=900&q=80'
+      ]
+    },
+    'extensions-additions': {
+      title: 'Dormers, Extensions & Additions',
+      images: [
+        'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=900&q=80',
+        'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?w=900&q=80',
+        'https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&q=80'
+      ]
+    },
+    'smart-home-systems': {
+      title: 'Smart Home Systems',
+      images: [
+        'https://images.unsplash.com/photo-1558002038-1055907df827?w=900&q=80',
+        'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=900&q=80',
+        'https://images.unsplash.com/photo-1556020685-ae41abfc9365?w=900&q=80'
+      ]
+    },
+    'project-management': {
+      title: 'Project Management',
+      images: [
+        'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80',
+        'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80',
+        'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&q=80'
+      ]
+    },
+    'interior-design': {
+      title: 'Interior Design',
+      images: [
+        'https://images.unsplash.com/photo-1616594039964-3a44d63f4591?w=900&q=80',
+        'https://images.unsplash.com/photo-1618219740975-d40978bb7378?w=900&q=80',
+        'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=900&q=80'
+      ]
+    }
+  };
+
+  const serviceCards = document.querySelectorAll('.service-card[data-service]');
+  const servicesGalleryPanel = document.getElementById('servicesGalleryPanel');
+  const servicesGalleryTitle = document.getElementById('servicesGalleryTitle');
+  const servicesGalleryGrid = document.getElementById('servicesGalleryGrid');
+
+  function renderServiceGallery(serviceKey) {
+    const service = serviceGalleryData[serviceKey];
+    if (!service) return;
+
+    servicesGalleryTitle.textContent = service.title;
+    servicesGalleryGrid.innerHTML = service.images
+      .map((src, index) => `<img src="${src}" alt="${service.title} image ${index + 1}" loading="lazy" class="services-gallery-img">`)
+      .join('');
+    servicesGalleryPanel.classList.add('active');
+
+    serviceCards.forEach(card => {
+      const isActive = card.dataset.service === serviceKey;
+      card.classList.toggle('active', isActive);
+      card.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    });
+  }
+
+  serviceCards.forEach(card => {
+    card.addEventListener('click', () => renderServiceGallery(card.dataset.service));
+    card.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        renderServiceGallery(card.dataset.service);
+      }
+    });
+  });
+
+  if (serviceCards.length) renderServiceGallery(serviceCards[0].dataset.service);
 
   // HERO CAROUSEL
   const slides = document.querySelectorAll('.hero-slide');
