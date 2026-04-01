@@ -1392,7 +1392,7 @@
   startCarousel();
 
   // FORM SUBMIT
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault();
     const btn = e.target.querySelector('.submit-btn');
     const formData = new FormData(e.target);
