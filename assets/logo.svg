@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Horizon Development logo</title>
+  <desc id="desc">Gold house crest with Horizon Development wordmark on dark background.</desc>
+  <rect width="1200" height="520" fill="#05070e"/>
+
+  <g fill="none" stroke="#E7CF7A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M340 210 L470 120 L590 200" stroke-width="10"/>
+    <path d="M430 205 L560 105 L700 205" stroke-width="10"/>
+    <path d="M520 205 L640 130 L760 205" stroke-width="10"/>
+    <path d="M305 210 H895" stroke-width="8"/>
+    <path d="M350 210 V280 M430 210 V280 M510 210 V280 M690 210 V280 M770 210 V280 M850 210 V280" stroke-width="7"/>
+    <rect x="375" y="235" width="34" height="45" stroke-width="7"/>
+    <rect x="565" y="235" width="40" height="45" stroke-width="7"/>
+    <rect x="735" y="235" width="40" height="45" stroke-width="7"/>
+    <path d="M585 258 C616 248 624 265 641 280" stroke-width="6"/>
+    <path d="M300 300 C420 248 790 248 900 300" stroke-width="9"/>
+    <path d="M260 330 C430 288 780 288 940 330" stroke-width="5"/>
+  </g>
+
+  <g fill="#E7CF7A" font-family="Times New Roman, Georgia, serif" text-anchor="middle">
+    <text x="600" y="428" font-size="128" letter-spacing="6">HORIZON</text>
+    <text x="600" y="486" font-size="62" letter-spacing="14">DEVELOPMENT</text>
+  </g>
+
+  <g stroke="#E7CF7A" stroke-width="4">
+    <line x1="230" y1="470" x2="330" y2="470"/>
+    <line x1="870" y1="470" x2="970" y2="470"/>
+  </g>
+</svg>
