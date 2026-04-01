@@ -1,21 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" role="img" aria-labelledby="title desc">
-  <title id="title">Horizon Development Logo</title>
-  <desc id="desc">Horizon Development wordmark with a gold horizon line and monogram.</desc>
-  <defs>
-    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#9B7A28"/>
-      <stop offset="50%" stop-color="#C9A84C"/>
-      <stop offset="100%" stop-color="#E2C47E"/>
-    </linearGradient>
-  </defs>
-  <rect width="420" height="120" fill="none"/>
-  <g transform="translate(12,14)">
-    <rect x="0" y="0" width="92" height="92" rx="8" fill="none" stroke="url(#gold)" stroke-width="2"/>
-    <path d="M15 74V18h10v23h40V18h10v56H65V50H25v24Z" fill="url(#gold)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Horizon Development logo</title>
+  <desc id="desc">Gold house crest with Horizon Development wordmark on dark background.</desc>
+  <rect width="1200" height="520" fill="#05070e"/>
+
+  <g fill="none" stroke="#E7CF7A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M340 210 L470 120 L590 200" stroke-width="10"/>
+    <path d="M430 205 L560 105 L700 205" stroke-width="10"/>
+    <path d="M520 205 L640 130 L760 205" stroke-width="10"/>
+    <path d="M305 210 H895" stroke-width="8"/>
+    <path d="M350 210 V280 M430 210 V280 M510 210 V280 M690 210 V280 M770 210 V280 M850 210 V280" stroke-width="7"/>
+    <rect x="375" y="235" width="34" height="45" stroke-width="7"/>
+    <rect x="565" y="235" width="40" height="45" stroke-width="7"/>
+    <rect x="735" y="235" width="40" height="45" stroke-width="7"/>
+    <path d="M585 258 C616 248 624 265 641 280" stroke-width="6"/>
+    <path d="M300 300 C420 248 790 248 900 300" stroke-width="9"/>
+    <path d="M260 330 C430 288 780 288 940 330" stroke-width="5"/>
   </g>
-  <g fill="#F5F2ED" font-family="Montserrat, Arial, sans-serif" letter-spacing="3">
-    <text x="120" y="50" font-size="28" font-weight="600">HORIZON</text>
-    <text x="120" y="78" font-size="15" font-weight="500" opacity="0.85">DEVELOPMENT</text>
+
+  <g fill="#E7CF7A" font-family="Times New Roman, Georgia, serif" text-anchor="middle">
+    <text x="600" y="428" font-size="128" letter-spacing="6">HORIZON</text>
+    <text x="600" y="486" font-size="62" letter-spacing="14">DEVELOPMENT</text>
   </g>
-  <line x1="120" y1="90" x2="405" y2="90" stroke="url(#gold)" stroke-width="2"/>
+
+  <g stroke="#E7CF7A" stroke-width="4">
+    <line x1="230" y1="470" x2="330" y2="470"/>
+    <line x1="870" y1="470" x2="970" y2="470"/>
+  </g>
 </svg>
