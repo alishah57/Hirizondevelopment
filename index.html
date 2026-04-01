@@ -306,7 +306,7 @@
       </div>
     </div>
     <div>
-      <form id="contactForm" class="contact-form" data-endpoint="https://formspree.io/f/your_form_id" onsubmit="handleSubmit(event)">
+      <form id="contactForm" class="contact-form" data-endpoint="https://formsubmit.co/ajax/horizondvlp@gmail.com" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group"><label for="firstName">First Name</label><input id="firstName" name="first_name" type="text" placeholder="John" required></div>
           <div class="form-group"><label for="lastName">Last Name</label><input id="lastName" name="last_name" type="text" placeholder="Smith" required></div>
@@ -341,6 +341,7 @@
           <textarea id="projectDetails" name="project_details" rows="5" placeholder="Share your vision, location, timeline..." required></textarea>
         </div>
         <button type="submit" class="submit-btn">Send Message</button>
+        <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
@@ -497,31 +498,43 @@
   // FORM SUBMIT
   async function handleSubmit(e){
     e.preventDefault();
-    const btn = e.target.querySelector('.submit-btn');
-    const formData = new FormData(e.target);
-    const bodyLines = [
-      `First Name: ${formData.get('first_name') || ''}`,
-      `Last Name: ${formData.get('last_name') || ''}`,
-      `Phone: ${formData.get('phone') || ''}`,
-      `Email: ${formData.get('email') || ''}`,
-      `Project Type: ${formData.get('project_type') || ''}`,
-      `Budget Range: ${formData.get('budget_range') || ''}`,
-      '',
-      'Project Details:',
-      `${formData.get('project_details') || ''}`
-    ];
-    const subject = encodeURIComponent('New Website Inquiry - Horizon Development');
-    const body = encodeURIComponent(bodyLines.join('\n'));
-    const mailtoHref = `mailto:horizondvlp@gmail.com?subject=${subject}&body=${body}`;
+    const form = e.target;
+    const btn = form.querySelector('.submit-btn');
+    const status = form.querySelector('#formStatus');
+    const formData = new FormData(form);
+    const endpoint = form.dataset.endpoint;
+    formData.append('_subject', 'New Website Inquiry - Horizon Development');
+    formData.append('_template', 'table');
 
-    btn.textContent = 'Message Sent ✓';
+    status.textContent = '';
+    btn.textContent = 'Sending...';
     btn.disabled = true;
-    window.location.href = mailtoHref;
-    setTimeout(() => {
+    btn.style.opacity = '0.7';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (!response.ok) throw new Error('Failed to submit form');
+
+      btn.textContent = 'Message Sent ✓';
+      status.textContent = 'Thanks! Your quote request was sent successfully. We will reach out shortly.';
+      status.classList.add('success');
+      status.classList.remove('error');
+      form.reset();
+    } catch (error) {
+      btn.textContent = 'Send Message';
+      status.textContent = 'Sorry, your message could not be sent. Please try again or email us directly at horizondvlp@gmail.com.';
+      status.classList.add('error');
+      status.classList.remove('success');
+    } finally {
       btn.textContent = 'Send Message';
       btn.disabled = false;
-      e.target.reset();
-    }, 2500);
+      btn.style.opacity = '1';
+    }
   }
 </script>
 </body>

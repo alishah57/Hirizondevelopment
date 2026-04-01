@@ -775,6 +775,14 @@
     align-self: flex-start;
   }
   .submit-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .form-status {
+    margin-top: -6px;
+    font-size: 12px;
+    line-height: 1.5;
+    min-height: 18px;
+  }
+  .form-status.success { color: #77d38d; }
+  .form-status.error { color: #ff8f8f; }
 
   /* FOOTER */
   footer {
